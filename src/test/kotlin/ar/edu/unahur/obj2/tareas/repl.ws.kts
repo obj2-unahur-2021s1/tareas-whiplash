@@ -1,5 +1,5 @@
 import ar.edu.unahur.obj2.tareas.Empleado
-import ar.edu.unahur.obj2.tareas.Tarea
+import ar.edu.unahur.obj2.tareas.TareaSimple
 
 // Pueden usar este archivo para hacer pruebas rápidas,
 // de la misma forma en que usaban el REPL de Wollok.
@@ -14,7 +14,7 @@ val empleado2= Empleado(150)
 val empleado3 = Empleado(150)
 val empleado4 = Empleado(150)
 
-val tarea1 = Tarea(20,empleadoResponsable,1500)
+val tarea1 = TareaSimple(20,empleadoResponsable,1500)
 tarea1.asignarEmpleado(empleado1)
 //tarea1.asignarEmpleado(empleado2)
 //tarea1.asignarEmpleado(empleado3)
