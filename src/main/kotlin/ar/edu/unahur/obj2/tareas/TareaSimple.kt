@@ -1,10 +1,12 @@
 package ar.edu.unahur.obj2.tareas
 
+
 interface Tarea {
     fun nominaDeEmpleados() : List<Empleado>
     fun horasNecesariasParaFinalizarTarea() : Int
     fun costoDeTarea() : Int
 }
+
  open class TareaSimple(val horasEstimadas : Int, val responsable : Empleado, val costoDeInfraestructura : Int  ) : Tarea {
     val empleadosAsignados = mutableListOf<Empleado>()
 
@@ -39,19 +41,32 @@ interface Tarea {
 open class TareasDeIntegracion(val responsableDeTareaDeIntegracion : Empleado) : Tarea {
     val tareasIntegradas = mutableListOf<Tarea>()
 
-    //TODO CORREGIR ESTO!!!
+
+    fun agregarTarea(tarea : Tarea){
+        tareasIntegradas.add(tarea)
+    }
+
+
     override fun nominaDeEmpleados(): List<Empleado> {
         return tareasIntegradas.map{it.nominaDeEmpleados()}.flatten().plus(responsableDeTareaDeIntegracion)
 
 
     }
-    
+
+    fun cantidadDeHorasDePlanificacion(sumaDeHoras : Int) : Int{
+        return (sumaDeHoras / 8).toInt()
+    }
+
     override fun horasNecesariasParaFinalizarTarea(): Int {
-        TODO("Not yet implemented")
+        val sumaDeHoras = tareasIntegradas.sumBy{it.horasNecesariasParaFinalizarTarea()}
+
+        return this.cantidadDeHorasDePlanificacion(sumaDeHoras) + sumaDeHoras
+
+
     }
 
     override fun costoDeTarea(): Int {
-        TODO("Not yet implemented")
+        
     }
 
 }

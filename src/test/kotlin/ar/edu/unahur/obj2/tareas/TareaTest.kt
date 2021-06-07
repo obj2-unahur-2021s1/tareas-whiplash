@@ -1,7 +1,9 @@
 package ar.edu.unahur.obj2.tareas
 
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 
 class TareaTest : DescribeSpec({
@@ -48,9 +50,9 @@ class TareaTest : DescribeSpec({
     val encargadaRosa = Empleado(200)
     val encargadaJazmin = Empleado(300)
 
-    val tarea1 = TareaSimple(20,encargadoJuan,1500)
-    val tarea2 = TareaSimple(20,encargadaRosa,1500)
-    val tarea3 = TareaSimple(20,encargadaJazmin,1500)
+    val tarea1 = TareaSimple(30,encargadoJuan,1500) //15
+    val tarea2 = TareaSimple(16,encargadaRosa,1500) //8
+    val tarea3 = TareaSimple(24,encargadaJazmin,1500) //6
 
     val antonio = Empleado(150)
     val fede = Empleado(150)
@@ -72,11 +74,17 @@ class TareaTest : DescribeSpec({
     tarea3.asignarEmpleado(fernando)
     tarea3.asignarEmpleado(sonia)
 
+
+
     it ("consultar la nomina de una tarea de integración"){
       val encargadoGeneral = Empleado(5000)
       val tareaIntegrada = TareasDeIntegracion(encargadoGeneral)
+      tareaIntegrada.agregarTarea(tarea1)
+      tareaIntegrada.agregarTarea(tarea2)
+      tareaIntegrada.agregarTarea(tarea3)
 
-      tareaIntegrada.nominaDeEmpleados().shouldContainExactly(
+      tareaIntegrada.nominaDeEmpleados().shouldContainExactlyInAnyOrder(
+        encargadoGeneral,
         antonio,
         fede,
         encargadoJuan,
@@ -89,8 +97,19 @@ class TareaTest : DescribeSpec({
         sonia,
         encargadaJazmin
       )
-
     }
+
+    it("Suma de horas"){
+      val encargadoGeneral = Empleado(5000)
+      val tareaIntegrada = TareasDeIntegracion(encargadoGeneral)
+      tareaIntegrada.agregarTarea(tarea1)
+      tareaIntegrada.agregarTarea(tarea2)
+      tareaIntegrada.agregarTarea(tarea3)
+
+      tareaIntegrada.horasNecesariasParaFinalizarTarea().shouldBe(32)
+    }
+
+
 
 
 
