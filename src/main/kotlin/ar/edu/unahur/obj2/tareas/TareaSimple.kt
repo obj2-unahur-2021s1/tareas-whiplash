@@ -59,14 +59,18 @@ open class TareasDeIntegracion(val responsableDeTareaDeIntegracion : Empleado) :
 
     override fun horasNecesariasParaFinalizarTarea(): Int {
         val sumaDeHoras = tareasIntegradas.sumBy{it.horasNecesariasParaFinalizarTarea()}
-
         return this.cantidadDeHorasDePlanificacion(sumaDeHoras) + sumaDeHoras
-
 
     }
 
+    fun bonusDelResponsable(sumaDeCostoDeTareas : Int) : Int{
+        return (sumaDeCostoDeTareas * 0.3).toInt()
+    }
+
     override fun costoDeTarea(): Int {
-        
+        val sumaDeCostoDeTareas = tareasIntegradas.sumBy{it.costoDeTarea()}
+        return this.bonusDelResponsable(sumaDeCostoDeTareas) + sumaDeCostoDeTareas
+
     }
 
 }

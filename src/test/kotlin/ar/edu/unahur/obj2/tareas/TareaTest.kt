@@ -50,9 +50,9 @@ class TareaTest : DescribeSpec({
     val encargadaRosa = Empleado(200)
     val encargadaJazmin = Empleado(300)
 
-    val tarea1 = TareaSimple(30,encargadoJuan,1500) //15
-    val tarea2 = TareaSimple(16,encargadaRosa,1500) //8
-    val tarea3 = TareaSimple(24,encargadaJazmin,1500) //6
+    val tarea1 = TareaSimple(30,encargadoJuan,1500) //1500+6000+4500 = 12000
+    val tarea2 = TareaSimple(16,encargadaRosa,1500) //2400 + 1500+3200 = 7100
+    val tarea3 = TareaSimple(24,encargadaJazmin,1500) //3600 + 1500 + 7200= 12300 === 31400 + 9420 == 42680
 
     val antonio = Empleado(150)
     val fede = Empleado(150)
@@ -74,14 +74,16 @@ class TareaTest : DescribeSpec({
     tarea3.asignarEmpleado(fernando)
     tarea3.asignarEmpleado(sonia)
 
+    val encargadoGeneral = Empleado(500)
+    val tareaIntegrada = TareasDeIntegracion(encargadoGeneral)
+
+    tareaIntegrada.agregarTarea(tarea1)
+    tareaIntegrada.agregarTarea(tarea2)
+    tareaIntegrada.agregarTarea(tarea3)
 
 
     it ("consultar la nomina de una tarea de integración"){
-      val encargadoGeneral = Empleado(5000)
-      val tareaIntegrada = TareasDeIntegracion(encargadoGeneral)
-      tareaIntegrada.agregarTarea(tarea1)
-      tareaIntegrada.agregarTarea(tarea2)
-      tareaIntegrada.agregarTarea(tarea3)
+
 
       tareaIntegrada.nominaDeEmpleados().shouldContainExactlyInAnyOrder(
         encargadoGeneral,
@@ -99,20 +101,13 @@ class TareaTest : DescribeSpec({
       )
     }
 
-    it("Suma de horas"){
-      val encargadoGeneral = Empleado(5000)
-      val tareaIntegrada = TareasDeIntegracion(encargadoGeneral)
-      tareaIntegrada.agregarTarea(tarea1)
-      tareaIntegrada.agregarTarea(tarea2)
-      tareaIntegrada.agregarTarea(tarea3)
-
+    it("Suma de horas necesarias para finalizar tarea"){
       tareaIntegrada.horasNecesariasParaFinalizarTarea().shouldBe(32)
     }
 
-
-
-
-
+    it("Costo de Tarea en Tarea de Integracion"){
+      tareaIntegrada.costoDeTarea().shouldBe(40820)
+    }
 
   }
 })
